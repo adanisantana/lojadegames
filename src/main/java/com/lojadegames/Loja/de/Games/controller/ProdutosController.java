@@ -58,15 +58,14 @@ public class ProdutosController {
 	
 	@PutMapping()
 	public ResponseEntity<Produtos> put(@Valid @RequestBody Produtos produtos){
-		if (produtosRepository.existsById(produtos.getIdProdutos())) {
 			if(categoriaRepository.existsById(produtos.getCategoria().getId())) {
-				return ResponseEntity.status(HttpStatus.OK).body(produtosRepository.save(produtos));
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Categoria não existe", null);}
-		}
-		else {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();}
+				return produtosRepository.findById(produtos.getIdProdutos()).map(resposta -> ResponseEntity.status(HttpStatus.OK).body(produtosRepository.save(produtos)))
+						.orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());}
+			
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Categoria não existe", null);
 		
 	}
+
 	
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@DeleteMapping("/{idProdutos}")

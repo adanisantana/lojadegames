@@ -1,13 +1,12 @@
 package com.lojadegames.Loja.de.Games.model;
 
-import org.hibernate.annotations.ManyToAny;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -29,17 +28,10 @@ public class Produtos {
 	private Integer quantidadeEstoque;
 	
 	
-	@ManyToAny
-	@JsonIgnoreProperties("categoria")
-	private Long categoria;
+	@ManyToOne
+	@JsonIgnoreProperties("produtos")
+	private Categoria categoria;
 	
-	public Long getCategoria() {
-		return categoria;
-	}
-
-	public void setCategoria(Long idCategoria) {
-		this.categoria = idCategoria;
-	}
 
 	public Long getIdProdutos() {
 		return idProdutos;
@@ -73,5 +65,13 @@ public class Produtos {
 		this.quantidadeEstoque = quantidadeEstoque;
 	}
 
+	public Categoria getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
+	}
+   
 
 }
